@@ -33,7 +33,6 @@ def start():
             result = Wa.lastchat()
             last_chat = result[0]
             sender = result[1]
-            print(sender + " : " + last_chat)
         except:
             pass
         if last_chat.lower() == "start":
@@ -45,23 +44,23 @@ def start():
             else:
                 Wa.send("This command can only used by Developer")
         else:
-            time.sleep(1)
-
+            time.sleep(0.2)
 
 
 def main():
-    global Model, system_prompt, Temperature, Max_token, Top_P
+    global Model, system_prompt, Temperature, Max_token, Top_P, last_chat, sender
     while True:
         try:
             result = Wa.lastchat()
             last_chat = result[0]
             sender = result[1]
-            time.sleep(2)
+            time.sleep(0.2)
         except:
             print("Someone is typing...")
             last_chat = ""
             sender = ""
-            time.sleep(0.5)
+            time.sleep(0.2)
+            break
         if last_chat.lower() == "stop":
             if sender[:(len(developer))] == developer:
                 global mode
@@ -80,8 +79,7 @@ def main():
             Wa.send_keys(f"│ ɴᴀᴍᴇ :{last_chat[6:]}")
             Wa.send_keys(f"│ ᴋʜᴏᴅᴀᴍ : {cek_khodam(last_chat[6:])}")
             Wa.send_keys(f"│ ᴀʀᴛɪ : {arti()}")
-            Wa.send_keys("╰─────────────────┈")
-            Wa.enter()
+            Wa.send("╰─────────────────┈")
 
         elif last_chat.lower() == "system info":
             end_time = time.time()
@@ -99,7 +97,7 @@ def main():
             Wa.send_keys(f"│ ʙᴜʟᴀɴ : {datetime.now().strftime("%B")}")
             Wa.send_keys(f"│ ᴅᴀᴛᴇ : {datetime.now().strftime("%d")}")
             Wa.send_keys(f"│ ʀᴜɴᴛɪᴍᴇ :  {days} Days {hours} Hours {minutes} Minutes")
-            Wa.send_keys("╰─────────────────┈")
+            Wa.send("╰─────────────────┈")
             Wa.send_keys("❏ LLM  INFO ❏")
             Wa.send_keys("╭─────────────────┈")
             Wa.send_keys(f"│ᴍᴏᴅᴇʟ : {Model}")
@@ -107,8 +105,7 @@ def main():
             Wa.send_keys(f"│ᴛᴇᴍᴘᴇʀᴀᴛᴜʀᴇ : {Temperature}")
             Wa.send_keys(f"│ᴍᴀxɪᴍᴜᴍ ᴛᴏᴋᴇɴ : {Max_token} Token")
             Wa.send_keys(f"│ᴛᴏᴘ_ᴘ : {Top_P}")
-            Wa.send_keys("╰─────────────────┈")
-            Wa.enter()
+            Wa.send("╰─────────────────┈")
 
         elif last_chat.lower() == "user info":
             if sender[:(len(developer))] == developer:
@@ -126,8 +123,7 @@ def main():
             Wa.send_keys(f"│ꜱᴛᴀᴛᴜꜱ : {Status}")
             Wa.send_keys(f"│ʀᴏʟᴇ : {role}")
             Wa.send_keys(f"│ᴀɢᴇ : {age} Days")
-            Wa.send_keys("╰─────────────────┈")
-            Wa.enter()
+            Wa.send("╰─────────────────┈")
         elif last_chat[:3].lower() == "set":
 
             if last_chat[:15].lower() == "set Temperature":
@@ -194,8 +190,7 @@ def main():
                         Wa.send_keys("│7. llama3-groq-70b-8192")
                         Wa.send_keys("│8. llama3-groq-8b-8192")
                         Wa.send_keys("│9. mixtral-8x7b-32768")
-                        Wa.send_keys("╰─────────────────┈")
-                        Wa.enter()
+                        Wa.send("╰─────────────────┈")
 
                 else:
                     Wa.send("Model only can changed by Developer")
@@ -207,7 +202,7 @@ def main():
                 else:
                     Wa.send("Maximum token can only be changed by Developer")
             else:
-                time.sleep(0.5)
+                pass
 
         else:
             pass
@@ -224,19 +219,16 @@ def daily():
     Wa.send_keys("│Good Afternoon")
     Wa.send_keys("│Good Evening")
     Wa.send_keys("│Good Night")
-    Wa.send_keys("╰─────────────────┈")
-    Wa.enter()
+    Wa.send("╰─────────────────┈")
     Wa.send_keys("╭─────────────────┈")
     Wa.send_keys("│This is a test message")
     Wa.send_keys("│")
     Wa.send_keys("│this message will sent ")
     Wa.send_keys("│every 24 hours, every 5:00")
-    Wa.send_keys("╰─────────────────┈")
-    Wa.enter()
+    Wa.send("╰─────────────────┈")
     Wa.send_keys("╭─────────────────┈")
     Wa.send_keys("│Please ignore this message")
-    Wa.send_keys("╰─────────────────┈")
-    Wa.enter()
+    Wa.send("╰─────────────────┈")
     Wa.unread()
     time.sleep(2)
     mode = 1

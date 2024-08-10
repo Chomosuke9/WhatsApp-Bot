@@ -77,7 +77,7 @@ def lastchat():
 
             last_chat = find_last_chat.text
             sender = find_last_sender.text
-            print("\nlast chat: ", last_chat, "\nsender: ", sender)
+            print("last chat: ", last_chat, "\nsender: ", sender)
             return [last_chat, sender]
             # im sure everyone know what this gonna do
         except:
