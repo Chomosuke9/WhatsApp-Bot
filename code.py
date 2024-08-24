@@ -8,6 +8,7 @@ import time
 import function_list as Wa
 import Configs
 from time_counter import get_remaining_seconds
+import Database
 
 start_time = time.time()
 now = datetime.now()
@@ -24,6 +25,15 @@ Temperature = Configs.Temperature
 Max_token = Configs.Max_token
 Top_P = Configs.Top_P
 
+day_dict = {
+    0: 'Senin',
+    1: 'Selasa',
+    2: 'Rabu',
+    3: 'Kamis',
+    4: 'Jumat',
+    5: 'Sabtu',
+    6: 'Minggu'
+}
 
 def start():
     last_chat = ""
@@ -126,7 +136,7 @@ def main():
             Wa.send("╰─────────────────┈")
         elif last_chat[:3].lower() == "set":
 
-            if last_chat[:15].lower() == "set Temperature":
+            if last_chat[:15].lower() == "set temperature":
                 clean_value = re.sub(r'[^0-9.]', '', last_chat[16:])
                 if clean_value == "":
                     Wa.send("Temperature cant be empty")
@@ -214,24 +224,19 @@ def daily():
     global mode
     Wa.group()
     Wa.search_contact("puja qiqi ajaib")
+    now = datetime.now()
+    day = now.weekday()
+    day = day_dict[day]
+    n = 1
+    jadwal = Database.jadwal(day)
+    Wa.send_keys(f"❏ MATA PELAJARAN HARI {day} ❏")
     Wa.send_keys("╭─────────────────┈")
-    Wa.send_keys("│Good Morning")
-    Wa.send_keys("│Good Afternoon")
-    Wa.send_keys("│Good Evening")
-    Wa.send_keys("│Good Night")
+    for j in jadwal[0]:
+        Wa.send_keys(f"│• Jam {n} : {j}")
+        n += 1
     Wa.send("╰─────────────────┈")
-    Wa.send_keys("╭─────────────────┈")
-    Wa.send_keys("│This is a test message")
-    Wa.send_keys("│")
-    Wa.send_keys("│this message will sent ")
-    Wa.send_keys("│every 24 hours, every 5:00")
-    Wa.send("╰─────────────────┈")
-    Wa.send_keys("╭─────────────────┈")
-    Wa.send_keys("│Please ignore this message")
-    Wa.send("╰─────────────────┈")
-    Wa.unread()
-    time.sleep(2)
     mode = 1
+    Wa.unread()
 
 
 def main_thread():
