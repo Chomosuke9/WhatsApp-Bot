@@ -217,6 +217,7 @@ def main():
         else:
             pass
         Wa.click_2nd_row()
+        time.sleep(1)
         break
 
 
