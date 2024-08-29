@@ -49,12 +49,15 @@ emoji_to_symbol = {
 
 
 def remove_emoji(text):
-    return emoji.replace_emoji(text, "")
-
+    try:
+        return emoji.replace_emoji(text, "")
+    except:
+        return "error"
 def replace_emoji_with_symbol(text):
-    for emoji, symbol in emoji_to_symbol.items():
-        text = text.replace(emoji, symbol)
+    try:
+        for emoji, symbol in emoji_to_symbol.items():
+            text = text.replace(emoji, symbol)
+        return remove_emoji(text)
+    except:
+        return "error"
 
-    return remove_emoji(text)
-
-print(replace_emoji_with_symbol("haii😉😃😉😂😢"))

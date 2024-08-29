@@ -25,6 +25,8 @@ Temperature = Configs.Temperature
 Max_token = Configs.Max_token
 Top_P = Configs.Top_P
 
+messages = [{"role": "system", "content": system_prompt}]
+
 day_dict = {
     0: 'Senin',
     1: 'Selasa',
@@ -34,6 +36,7 @@ day_dict = {
     5: 'Sabtu',
     6: 'Minggu'
 }
+
 
 def start():
     last_chat = ""
@@ -56,9 +59,8 @@ def start():
         else:
             time.sleep(0.2)
 
-
 def main():
-    global Model, system_prompt, Temperature, Max_token, Top_P, last_chat, sender
+    global Model, system_prompt, Temperature, Max_token, Top_P, last_chat, sender, messages
     while True:
         try:
             result = Wa.lastchat()
@@ -81,7 +83,12 @@ def main():
                 Wa.send("Only Developer can stop the service")
 
         elif last_chat[:3].lower() == "gpt":
-            Wa.send(replace_emoji_with_symbol(gpt(last_chat[3:], system_prompt, Temperature, Model, Max_token, Top_P)))
+            messages.append({"role": "user", "content": last_chat[3:]})
+            response = gpt(messages, Temperature, Model, Max_token, Top_P)
+            response = replace_emoji_with_symbol(response)
+            messages.append({"role": "assistant", "content": response})
+            Wa.send_keys(response)
+            Wa.send("")
 
         elif last_chat[:6].lower() == "khodam":
             Wa.send_keys("❏  INFO  KHODAM")
@@ -116,7 +123,9 @@ def main():
             Wa.send_keys(f"│ᴍᴀxɪᴍᴜᴍ ᴛᴏᴋᴇɴ : {Max_token} Token")
             Wa.send_keys(f"│ᴛᴏᴘ_ᴘ : {Top_P}")
             Wa.send("╰─────────────────┈")
-
+        elif last_chat.lower() == "reset memory":
+            messages = [{"role": "system", "content": system_prompt}]
+            Wa.send("Memory has been reset")
         elif last_chat.lower() == "user info":
             if sender[:(len(developer))] == developer:
                 sender = "Raja Iblis"
@@ -126,7 +135,6 @@ def main():
 
             Status = "Alive"
             age = 0
-
             Wa.send_keys("❏ USER  INFO ❏")
             Wa.send_keys("╭─────────────────┈")
             Wa.send_keys(f"│ɴᴀᴍᴇ : {sender}")
@@ -146,6 +154,7 @@ def main():
 
             elif last_chat[:10].lower() == "set prompt":
                 system_prompt = last_chat[11:]
+                messages = [{"role": "system", "content": system_prompt}]
                 Wa.send("System prompt updated")
 
             elif last_chat[:9].lower() == "set model":
@@ -201,7 +210,8 @@ def main():
                         Wa.send_keys("│8. llama3-groq-8b-8192")
                         Wa.send_keys("│9. mixtral-8x7b-32768")
                         Wa.send("╰─────────────────┈")
-
+                    messages = [{"role": "system", "content": system_prompt}]
+                    Wa.send("Model changed to " + last_chat[-1])
                 else:
                     Wa.send("Model only can changed by Developer")
 
@@ -224,7 +234,7 @@ def main():
 def daily():
     global mode
     Wa.group()
-    Wa.search_contact("puja qiqi ajaib")
+    Wa.search_contact("Online Terrorist")
     now = datetime.now()
     day = now.weekday()
     day = day_dict[day]
